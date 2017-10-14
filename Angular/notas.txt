@@ -1,0 +1,100 @@
+todo lo q empieza con @ es un decorador para amplicar la capacidad
+
+Componentes, para cosas mas elaboradas (ejem: mostrar un calendario seleccionar la fecha y luego q aparezca para selecciona la hora)
+Directivas, se aplica sobre algun elemento, para cosas pequeñas
+
+crear en src - app - app.directive.ts
+
+ciclo de vida de Angular
+1) constructor - para inicializar variables, servicios (aun no se carga el html, css, etC)
+2) ngOnInit (segundo evento q se ejecuta, solo se ejecuta una vez, hay q implementarlo xq es una interface)
+
+luego hay q declararla en app.component (para que Angular sepa q existe la directiva)
+
+como ejemplo la vamos a usasr en el app.compnent.html
+
+para crear directivas mas rapido (asi como en componentes)
+ng g d directivaAvanzada
+
+ejemplo "selectdirective"
+el appSelect ademas de ser un atributo tambien es una propiedad
+1) en el html indicar que datos se mostraran
+2) dentro de select.directive.ts 
+
+para appServicios
+-----------------
+en angular 1, existian:
+Factorias (devuolvian una funcion)
+Servicios (devolvian un objeto, instanciaban una clase) -> en angular 2 es lo unico q queda -> closure (se instancia una vez y se comparte para todos los componentes, es como un Controlador en un esquema MVC)
+Proveedores (cuando se inicializa la aplicacion de angular, en el bootstrap de angular 1)
+
+Esquema de componentes:
+                                      Modelo
+--------------------AppModule---------------
+-------AppComponent------
+Listado      
+
+form         detalle           Servicios
+
+pelicula
+-------------------------
+--------------------------------------------
+lo componentes son las vistas
+el controlador son los servicios (q estan fuera de los componentes)
+modulo, abarca tanto a componentes como a servicios
+
+1) crear el servicio (se crea el app.servicio.ts, en app.module se declara   si es q lo queremos en el modulo)
+     si queremos declararlo en un componente, dentro de app.component.ts
+
+     ng g s peliculas
+
+2) ahora necesitamos crear los componentes: listado, detalle, formulario, pelicula:  ng g c nombreComponente --spec false
+   y el modelo: ng g class compartido/pelicula
+
+3) usamos bootstrap: npm install bootstrap@4.0.0-beta --save
+  incluirlo dentro del .angular-cli.json (style)
+
+4) en app.component.html incluimos los componentes
+
+5) en listado.component.html maquetamos
+6) en pelicula/pelicula.component.html  maquetamos
+
+7) definir compartido/pelicula
+8) en app.module.ts hay q importar PeliculasService
+9) en peliculas.service.ts : Definimos 3 peliculas. Inyectamos el servicio en listado.component.ts
+10) en listado.component.html ya se puede usar el componente de la lista (pela)
+11) en pelicula.component.ts hay q declarar el input pela y luego en el html
+12) en formulario/formulario.component.html  maquetamos, usamos variables de plantilla: #titulo... y creamos el evento agregar en formulario.component.ts e inyectamos el servicio
+  para evitar el submit del button se añada "type=button"
+13) para seleccionar una pelicula y mostrar sus detalles al lado derecho: maquetamos detalle.component.html  y en peliculas.service.ts  creamos la variable peliculasSelccionada
+    inyectamos pelicula.component.ts y en detalle.component.ts (declaramos pela)  con esto ya podemos mostrarlo en detalle.component.html
+
+14) click en la pelicula seleccionada en listado.component.html
+15) app.component.ts  lo modificamos a como estaba antes (ya no esta el poviders)
+
+
+appRutas
+--------
+se manejan a nivel de modulos: hay q importar RouterModule y Routes
+tambien se deben declarar las rutas: cuando path es vaio se debe mostrar el componente 
+dinamicamente angular va cargando los componentes en <router-outlet> definida en el app-component 
+
+para ver el resultado ingresar en la barra de direcciones: http://localhost:4200/agregar
+
+modifiquemos Detalle.ts
+
+copiamos de bootstrap una nav y lo llevamos a compartido (cabecera)
+en la cabecera no nos sirve los href xq recargan la pagina.  angular utiliza el Document.Location para no recargar la pagina
+en cabecera se da el ejemplo si la ruta es variable 
+routerLinkActive
+las rutas se manejan en base a expresiones regular
+pathMatch: "full" busca exactamente la ruta q se encuentre ahi
+
+al agregar q se vaya a otra pagina
+  en formulario.component.ts  se agrego router 
+
+el listado.component.html se modifico agregando "seleccionar" metodo
+en el modulo: detalle/:id
+
+en detalle.component.ts  leemos el parametro id
+
